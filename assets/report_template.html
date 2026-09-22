@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE_EN}} - AliExpress Listing Report</title>
+<style>
+:root{--bg:#f5f6f8;--card:#fff;--text:#1a1a2e;--muted:#6c757d;--accent:#e83142;--accent2:#2563eb;--geo:#7c3aed;--accent-light:#fff0f1;--blue-light:#eff6ff;--geo-light:#f5f3ff;--border:#e0e3e8;--tag-bg:#f0f2f5;--cn:#d6336c;--shadow:0 1px 4px rgba(0,0,0,0.06)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:15px}
+.container{max-width:960px;margin:0 auto;padding:24px 20px 60px}
+.header{text-align:center;padding:36px 24px 28px;background:linear-gradient(135deg,#e83142 0%,#ff6b35 100%);border-radius:14px;color:#fff;margin-bottom:24px;box-shadow:0 4px 16px rgba(232,49,66,.2)}
+.header h1{font-size:22px;font-weight:800;margin-bottom:6px}
+.header h1 .cn{color:#fff;opacity:.95}
+.header h1 .sep{color:rgba(255,255,255,.5);margin:0 6px}
+.header h1 .en{color:#fff}
+.header .sub{font-size:14px;opacity:.85}
+.header .tags{margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.header .tag{background:rgba(255,255,255,.2);padding:4px 12px;border-radius:20px;font-size:13px}
+.section{background:var(--card);border-radius:10px;box-shadow:var(--shadow);padding:28px 32px;margin-bottom:20px}
+.section h2{font-size:17px;font-weight:700;margin:0 0 14px;padding-bottom:10px;border-bottom:2px solid var(--accent);color:var(--accent)}
+.section.geo h2{border-bottom-color:var(--geo);color:var(--geo)}
+.section.ae h2{border-bottom-color:var(--accent2);color:var(--accent2)}
+.section h3{font-size:15px;font-weight:600;margin:18px 0 10px;color:#333}
+.section h3 .cn{color:var(--cn)}
+.cn{color:var(--cn)}
+.en{color:var(--text)}
+.overview{display:flex;gap:24px;flex-wrap:wrap}
+.overview .img{flex:0 0 280px}
+.overview .img img{width:100%;border-radius:8px;border:1px solid var(--border)}
+.overview .info{flex:1;min-width:250px}
+.overview dl{display:grid;grid-template-columns:110px 1fr;gap:6px 14px}
+.overview dt{color:var(--muted);font-weight:600;font-size:13px}
+.overview dd{font-size:14px}
+.overview dd .cn{color:var(--cn)}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0}
+th{background:var(--bg);font-weight:600;text-align:left;padding:8px 12px;border-bottom:2px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+th .cn{color:var(--cn);text-transform:none}
+td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:hover td{background:#fafbfc}
+.src{font-size:10px;padding:2px 6px;border-radius:3px;white-space:nowrap}
+.src.1688-page{background:#cfe2ff;color:#084298}
+.src.image-analysis{background:#f3e5f5;color:#6a1b9a}
+.src.inferred{background:#fff3cd;color:#856404}
+.tier{font-size:10px;padding:2px 8px;border-radius:4px;font-weight:600}
+.tier.Primary{background:#fee2e2;color:#991b1b}
+.tier.Secondary{background:#fef9c3;color:#854d0e}
+.tier.Tertiary{background:#d1fae5;color:#065f46}
+.tier.Backend{background:#e0e7ff;color:#3730a3}
+.fabe-item{padding:14px;border:1px solid var(--border);border-radius:8px;margin-bottom:10px}
+.fabe-item .row{margin-bottom:6px}
+.fabe-item .row:last-child{margin-bottom:0}
+.fabe-item .label{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;margin-right:8px;text-transform:uppercase}
+.label.f{background:#cfe2ff;color:#084298}
+.label.a{background:#d1e7dd;color:#0f5132}
+.label.b{background:#fff3cd;color:#856404}
+.label.e{background:#f8d7da;color:#842029}
+.fabe-item .cn{display:block;font-size:13px;color:var(--cn)}
+.fabe-item .en{display:block;font-size:14px}
+.buyer-card{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}
+.buyer-card .card{padding:10px 14px;background:var(--bg);border-radius:6px}
+.buyer-card .card strong{font-size:12px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px}
+.buyer-card .card .cn{display:block;font-size:13px;color:var(--cn)}
+.buyer-card .card .en{display:block;font-size:14px}
+ol.selling-points{list-style:none;counter-reset:sp}
+ol.selling-points li{padding:10px 14px 10px 44px;margin-bottom:6px;background:var(--accent-light);border-radius:8px;border-left:4px solid var(--accent);counter-increment:sp;position:relative}
+ol.selling-points li::before{content:counter(sp);position:absolute;left:10px;top:50%;transform:translateY(-50%);width:24px;height:24px;line-height:24px;text-align:center;background:var(--accent);color:#fff;border-radius:50%;font-size:12px;font-weight:700}
+ol.selling-points li .cn{display:block;font-size:13px;color:var(--cn)}
+ol.selling-points li .en{display:block;font-size:14px}
+.ae-block{padding:16px;background:var(--blue-light);border-radius:8px;margin-bottom:12px;border-left:4px solid var(--accent2)}
+.ae-block .label{font-weight:700;font-size:13px;text-transform:uppercase;color:var(--accent2);margin-bottom:8px}
+.ae-block .label .cn{color:var(--cn);text-transform:none;margin-left:6px}
+.ae-block ul{padding-left:18px}
+.ae-block li{margin-bottom:4px}
+.ae-block li .cn{display:block;font-size:13px;color:var(--cn)}
+.ae-block li .en{display:block}
+.ae-block .title-display{font-size:16px;font-weight:600;word-break:break-word;padding:8px 12px;background:#fff;border-radius:6px;margin-bottom:6px}
+.ae-block .char-count{font-size:12px;color:var(--muted)}
+.geo-block{padding:16px;background:var(--geo-light);border-radius:8px;margin-bottom:12px;border-left:4px solid var(--geo)}
+.geo-block .label{font-weight:700;font-size:13px;text-transform:uppercase;color:var(--geo);margin-bottom:8px}
+.geo-block .label .cn{color:var(--cn);text-transform:none;margin-left:6px}
+.geo-block .qa{margin-bottom:10px;padding:8px 12px;background:#fff;border-radius:6px}
+.geo-block .qa .q{font-weight:600;margin-bottom:4px}
+.geo-block .qa .q .cn{display:block;font-size:13px;color:var(--cn)}
+.geo-block .qa .q .en{display:block}
+.geo-block .qa .a .cn{display:block;font-size:13px;color:var(--cn)}
+.geo-block .qa .a .en{display:block}
+.kw-cloud{display:flex;flex-wrap:wrap;gap:6px}
+.kw-cloud .kw{background:var(--tag-bg);padding:4px 12px;border-radius:16px;font-size:13px}
+.assumptions{background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:16px}
+.assumptions ul{padding-left:18px}
+.assumptions li{margin-bottom:6px}
+.assumptions li .cn{display:block;font-size:13px;color:var(--cn)}
+.assumptions li .en{display:block}
+.jsonld-block{background:#1e293b;color:#e2e8f0;padding:14px;border-radius:6px;font-family:"SF Mono",Consolas,monospace;font-size:12px;overflow-x:auto;margin-top:8px;white-space:pre-wrap;word-break:break-all}
+.footer{text-align:center;padding:20px;color:var(--muted);font-size:13px}
+@media(max-width:640px){.container{padding:16px 12px 40px}.section{padding:20px 18px}.overview{flex-direction:column}.overview .img{flex:1 1 100%}table{font-size:12px}th,td{padding:6px 8px}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+<h1><span class="cn">{{TITLE_CN}}</span><span class="sep">|</span><span class="en">{{TITLE_EN}}</span></h1>
+<div class="sub">AliExpress 上架文案报告 | Cross-Border Listing Content Report</div>
+<div class="tags">
+<span class="tag">Offer ID: {{OFFER_ID}}</span>
+<span class="tag">Price: {{PRICE}}</span>
+<span class="tag">MOQ: {{MOQ}}</span>
+<span class="tag">Date: {{DATE}}</span>
+</div>
+</div>
+
+<!-- PRODUCT OVERVIEW -->
+<div class="section">
+<h2><span class="cn">产品概览</span> | Product Overview</h2>
+<div class="overview">
+<div class="img">{{HERO_IMAGE}}</div>
+<div class="info">
+<dl>
+<dt>中文标题</dt><dd><span class="cn">{{TITLE_CN}}</span></dd>
+<dt>EN Title</dt><dd><span class="en">{{TITLE_EN}}</span></dd>
+<dt>价格 Price</dt><dd>{{PRICE}}</dd>
+<dt>起订量 MOQ</dt><dd>{{MOQ}}</dd>
+<dt>供应商 Supplier</dt><dd>{{SUPPLIER}}</dd>
+<dt>来源链接</dt><dd><a href="{{SOURCE_URL}}" target="_blank">{{SOURCE_URL}}</a></dd>
+</dl>
+</div>
+</div>
+</div>
+
+<!-- KEYWORD SCORING -->
+<div class="section">
+<h2><span class="cn">关键词评分</span> | Keyword Scoring</h2>
+<table>
+<thead><tr><th>#</th><th>Keyword</th><th>Score</th><th>Tier</th><th>Placement</th></tr></thead>
+<tbody>{{KW_ROWS}}</tbody>
+</table>
+</div>
+
+<!-- ATTRIBUTES -->
+<div class="section">
+<h2><span class="cn">原始属性清单</span> | Raw Attribute Inventory</h2>
+<table>
+<thead><tr><th>#</th><th><span class="cn">属性(中)</span> Attr(CN)</th><th>Attr(EN)</th><th><span class="cn">值(中)</span> Val(CN)</th><th>Val(EN)</th><th>Source</th></tr></thead>
+<tbody>{{ATTR_ROWS}}</tbody>
+</table>
+</div>
+
+<!-- FABE -->
+<div class="section">
+<h2><span class="cn">FABE 卖点拆解</span> | FABE Breakdown</h2>
+<p style="color:var(--muted);font-size:13px;margin-bottom:12px">Feature -> Advantage -> Benefit -> Evidence</p>
+{{FABE_ITEMS}}
+</div>
+
+<!-- CONVERSION DRIVER -->
+<div class="section">
+<h2><span class="cn">转化驱动力</span> | Conversion Driver</h2>
+<h3>Primary Driver: {{DRIVER_PRIMARY}}</h3>
+<div class="buyer-card">
+<div class="card"><strong>Reasoning</strong><span class="cn">{{DRIVER_REASON_CN}}</span><span class="en">{{DRIVER_REASON_EN}}</span></div>
+</div>
+<h3><span class="cn">买家画像</span> Buyer Reason Card</h3>
+<div class="buyer-card">
+<div class="card"><strong>Target Buyer</strong><span class="cn">{{BUYER_TARGET}}</span></div>
+<div class="card"><strong>Purchase Trigger</strong><span class="cn">{{BUYER_TRIGGER}}</span></div>
+<div class="card"><strong>Belief Shift</strong><span class="cn">{{BUYER_BELIEF}}</span></div>
+<div class="card"><strong>Primary Reason</strong><span class="cn">{{BUYER_REASON}}</span></div>
+<div class="card"><strong>Proof</strong><span class="cn">{{BUYER_PROOF}}</span></div>
+</div>
+</div>
+
+<!-- SELLING POINTS -->
+<div class="section">
+<h2><span class="cn">基准卖点</span> | Baseline Selling Points</h2>
+<ol class="selling-points">{{SELLING_POINTS}}</ol>
+</div>
+
+<!-- ALIEXPRESS STANDARD -->
+<div class="section ae">
+<h2><span class="cn">速卖通上架文案（普通版）</span> | AliExpress Standard Listing</h2>
+
+<div class="ae-block">
+<div class="label">Title <span class="cn">标题</span></div>
+<div class="title-display">{{AE_TITLE}}</div>
+<div class="char-count">Characters: {{AE_TITLE_LEN}} / 128</div>
+</div>
+
+<div class="ae-block">
+<div class="label">Item Specifics <span class="cn">规格标签</span></div>
+<ul>{{AE_SPECS}}</ul>
+</div>
+
+<div class="ae-block">
+<div class="label">SKU Matrix <span class="cn">SKU矩阵</span></div>
+<table><thead><tr><th>Color</th><th>Spec</th><th>Price</th><th>Stock</th></tr></thead><tbody>{{AE_SKU}}</tbody></table>
+</div>
+
+<div class="ae-block">
+<div class="label">Description <span class="cn">描述</span></div>
+<div class="bi-block"><p class="cn">{{AE_DESCRIPTION_CN}}</p><p class="en">{{AE_DESCRIPTION_EN}}</p></div>
+</div>
+
+<div class="ae-block">
+<div class="label">Search Keywords <span class="cn">搜索关键词</span></div>
+<p class="en" style="font-family:monospace;font-size:13px">{{AE_KEYWORDS}}</p>
+</div>
+
+<div class="ae-block">
+<div class="label">Image Notes <span class="cn">图片建议</span></div>
+<p class="en">{{AE_IMAGE_NOTES}}</p>
+</div>
+</div>
+
+<!-- ALIEXPRESS GEO -->
+<div class="section geo">
+<h2><span class="cn">速卖通上架文案（GEO版）</span> | AliExpress GEO-Enhanced Listing</h2>
+
+<div class="geo-block">
+<div class="label">GEO Title <span class="cn">GEO标题</span></div>
+<p class="en">{{GEO_TITLE}}</p>
+</div>
+
+<div class="geo-block">
+<div class="label">FAQ Block <span class="cn">FAQ问答</span></div>
+{{GEO_FAQ}}
+</div>
+
+<div class="geo-block">
+<div class="label">Situational Language <span class="cn">场景化语义</span></div>
+<div class="bi-block"><p class="cn">{{GEO_SITUATIONAL_CN}}</p><p class="en">{{GEO_SITUATIONAL_EN}}</p></div>
+</div>
+
+<div class="geo-block">
+<div class="label">Competitive Comparison <span class="cn">竞品对比</span></div>
+<div class="bi-block"><p class="cn">{{GEO_COMPARISON_CN}}</p><p class="en">{{GEO_COMPARISON_EN}}</p></div>
+</div>
+
+<div class="geo-block">
+<div class="label">Natural Language Keywords <span class="cn">自然语言关键词</span></div>
+<div class="kw-cloud">{{GEO_NL}}</div>
+</div>
+
+<div class="geo-block">
+<div class="label">JSON-LD Structured Data <span class="cn">结构化数据</span></div>
+<div class="jsonld-block">{{GEO_JSONLD}}</div>
+</div>
+
+<div class="geo-block">
+<div class="label">Multi-language Keywords <span class="cn">多语言关键词</span></div>
+<p class="en" style="font-size:13px">{{GEO_MULTILANG}}</p>
+</div>
+</div>
+
+<!-- ASSUMPTIONS -->
+<div class="section">
+<h2><span class="cn">假设与推断</span> | Assumptions</h2>
+<div class="assumptions"><ul>{{ASSUMPTIONS}}</ul></div>
+</div>
+
+<div class="footer">
+Generated by ae-listing-generator skill | {{DATE}}<br>
+AliExpress Listing Content Report | 跨境电商上架文案报告
+</div>
+
+</div>
+</body>
+</html>

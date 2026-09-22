@@ -1,0 +1,4 @@
+interface:
+  display_name: "AliExpress Listing Generator"
+  short_description: "从1688链接生成速卖通上架文案（含GEO优化）"
+  default_prompt: "帮我从这个链接生成速卖通上架文案"

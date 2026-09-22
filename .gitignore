@@ -1,0 +1,11 @@
+ __pycache__/
+ *.pyc
+ .DS_Store
+ *.json
+ !references/*.json
+ output/
+ *.html
+ !assets/report_template.html
+ .env
+ node_modules/
+ *.log
