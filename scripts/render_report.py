@@ -13,6 +13,29 @@ def esc(v):
         return ""
     return html.escape(str(v), quote=True)
 
+def desc_to_paragraphs(text):
+    """Split a description string into paragraphs by newlines."""
+    if not text:
+        return []
+    return [p.strip() for p in text.split("\n") if p.strip()]
+
+def render_description_html(desc_foreign, desc_cn):
+    """Build desc-section divs: foreign paragraphs first, divider, then CN paragraphs."""
+    fp = desc_to_paragraphs(desc_foreign)
+    cp = desc_to_paragraphs(desc_cn)
+    parts = []
+    if fp:
+        en_inner = "".join(f'<p class="desc-en">{esc(p)}</p>' for p in fp)
+        parts.append(f'<div class="desc-section">{en_inner}</div>')
+    if cp:
+        if parts:
+            parts.append('<hr class="desc-divider">')
+        cn_inner = "".join(f'<p class="desc-cn">{esc(p)}</p>' for p in cp)
+        parts.append(f'<div class="desc-section">{cn_inner}</div>')
+    if not parts:
+        return '<div class="desc-section"><p class="desc-en">N/A</p></div>'
+    return "".join(parts)
+
 def load_json(path):
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
@@ -25,6 +48,9 @@ def render(data, template):
     buyer = data.get("buyer_reason", {})
     ae_standard = data.get("aliexpress_standard", {})
     ae_geo = data.get("aliexpress_geo", {})
+    consumer = data.get("consumer_insight", {})
+    market = data.get("market", "North America")
+    language = data.get("language", "English")
     assumptions = data.get("assumptions", [])
 
     # Attribute rows
@@ -60,20 +86,70 @@ def render(data, template):
     # AliExpress standard listing
     ae_title = ae_standard.get("title", "")
     ae_title_len = len(ae_title)
-    ae_specs_html = ""
+    ae_title_cn = ae_standard.get("title_cn", ae_standard.get("title_chinese", ""))
+
+    # Item Specifics: two-column grid (foreign left, CN right)
+    ae_specs_twocol = ""
     for s in ae_standard.get("item_specifics", []):
-        ae_specs_html += f'<li><span class="cn">{esc(s.get("cn",""))}</span><span class="en">{esc(s.get("en",""))}</span></li>\n'
+        en_val = esc(s.get("en", s.get("value_en", "")))
+        cn_val = esc(s.get("cn", s.get("value_cn", "")))
+        ae_specs_twocol += f'<div class="spec-row"><div class="spec-cell en">{en_val}</div><div class="spec-cell cn">{cn_val}</div></div>\n'
+    if not ae_specs_twocol:
+        ae_specs_twocol = '<div class="spec-row"><div class="spec-cell en">N/A</div><div class="spec-cell cn">N/A</div></div>'
+
+    # Description: foreign paragraphs first, then CN paragraphs
+    ae_description_html = render_description_html(
+        ae_standard.get("description", ae_standard.get("description_en", "")),
+        ae_standard.get("description_cn", "")
+    )
+
     ae_sku_html = ""
     for s in ae_standard.get("sku", []):
         ae_sku_html += f'<tr><td>{esc(s.get("color",""))}</td><td>{esc(s.get("spec",""))}</td><td>{esc(s.get("price",""))}</td><td>{esc(s.get("stock",""))}</td></tr>\n'
 
-    # AliExpress GEO listing
-    geo_faq_html = ""
+    # GEO FAQ: split into foreign Q&A group and CN Q&A group
+    geo_faq_en = ""
+    geo_faq_cn = ""
     for q in ae_geo.get("faq", []):
-        geo_faq_html += f'<div class="qa"><div class="q"><span class="cn">{esc(q.get("q_cn",""))}</span><span class="en">{esc(q.get("q_en",""))}</span></div><div class="a"><span class="cn">{esc(q.get("a_cn",""))}</span><span class="en">{esc(q.get("a_en",""))}</span></div></div>\n'
+        q_en = esc(q.get("q_en", q.get("q_foreign", "")))
+        a_en = esc(q.get("a_en", q.get("a_foreign", "")))
+        q_cn = esc(q.get("q_cn", ""))
+        a_cn = esc(q.get("a_cn", ""))
+        if q_en or a_en:
+            geo_faq_en += f'<div class="qa"><div class="q"><span class="en">{q_en}</span></div><div class="a"><span class="en">{a_en}</span></div></div>\n'
+        if q_cn or a_cn:
+            geo_faq_cn += f'<div class="qa"><div class="q"><span class="cn">{q_cn}</span></div><div class="a"><span class="cn">{a_cn}</span></div></div>\n'
+    if not geo_faq_en:
+        geo_faq_en = '<div class="qa"><div class="q"><span class="en">N/A</span></div></div>'
+    if not geo_faq_cn:
+        geo_faq_cn = '<div class="qa"><div class="q"><span class="cn">N/A</span></div></div>'
+
     geo_nl_html = ""
     for n in ae_geo.get("natural_language", []):
         geo_nl_html += f'<span class="kw"><span class="en">{esc(n)}</span></span>\n'
+
+    # Market / Language tag
+    market_lang_tag = f"Market: {market} | Lang: {language}"
+
+    # Consumer Insight HTML
+    consumer_html = ""
+    if consumer:
+        consumer_html = '<div class="section">'
+        consumer_html += '<h2><span class="cn">目标市场消费者分析</span> | Consumer Insight</h2>'
+        consumer_html += '<div class="consumer-card">'
+        for key, label_en in [
+            ("target_persona", "Target Persona"),
+            ("purchase_motivation", "Purchase Motivation"),
+            ("cultural_preference", "Cultural Preference"),
+            ("search_habits", "Search Habits"),
+            ("competitive_landscape", "Competitive Landscape"),
+            ("viral_potential", "Viral Potential"),
+        ]:
+            val = consumer.get(key, "")
+            if not val:
+                continue
+            consumer_html += f'<div class="ccard"><strong>{label_en}</strong><span class="en">{esc(val)}</span></div>'
+        consumer_html += '</div></div>'
 
     # Assumptions
     asump_html = ""
@@ -94,6 +170,8 @@ def render(data, template):
         "{{SUPPLIER}}": esc(product.get("supplier_text", "")),
         "{{SOURCE_URL}}": esc(product.get("url", "")),
         "{{DATE}}": esc(data.get("generated_at", "")),
+        "{{MARKET_LANG_TAG}}": esc(market_lang_tag),
+        "{{CONSUMER_INSIGHT_HTML}}": consumer_html,
         "{{ATTR_ROWS}}": attr_rows,
         "{{KW_ROWS}}": kw_rows,
         "{{FABE_ITEMS}}": fabe_html,
@@ -107,15 +185,16 @@ def render(data, template):
         "{{BUYER_PROOF}}": esc(buyer.get("proof", "")),
         "{{SELLING_POINTS}}": sp_html,
         "{{AE_TITLE}}": esc(ae_title),
+        "{{AE_TITLE_CN}}": esc(ae_title_cn),
         "{{AE_TITLE_LEN}}": str(ae_title_len),
-        "{{AE_SPECS}}": ae_specs_html,
+        "{{AE_SPECS_TWOCOL}}": ae_specs_twocol,
         "{{AE_SKU}}": ae_sku_html,
-        "{{AE_DESCRIPTION_CN}}": esc(ae_standard.get("description_cn", "")),
-        "{{AE_DESCRIPTION_EN}}": esc(ae_standard.get("description_en", "")),
+        "{{AE_DESCRIPTION_HTML}}": ae_description_html,
         "{{AE_KEYWORDS}}": esc(ae_standard.get("search_keywords", "")),
         "{{AE_IMAGE_NOTES}}": esc(ae_standard.get("image_notes", "")),
         "{{GEO_TITLE}}": esc(ae_geo.get("title", "")),
-        "{{GEO_FAQ}}": geo_faq_html,
+        "{{GEO_FAQ_EN}}": geo_faq_en,
+        "{{GEO_FAQ_CN}}": geo_faq_cn,
         "{{GEO_NL}}": geo_nl_html,
         "{{GEO_SITUATIONAL_CN}}": esc(ae_geo.get("situational_cn", "")),
         "{{GEO_SITUATIONAL_EN}}": esc(ae_geo.get("situational_en", "")),

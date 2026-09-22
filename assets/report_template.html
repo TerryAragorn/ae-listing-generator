@@ -67,24 +67,28 @@ ol.selling-points li{padding:10px 14px 10px 44px;margin-bottom:6px;background:va
 ol.selling-points li::before{content:counter(sp);position:absolute;left:10px;top:50%;transform:translateY(-50%);width:24px;height:24px;line-height:24px;text-align:center;background:var(--accent);color:#fff;border-radius:50%;font-size:12px;font-weight:700}
 ol.selling-points li .cn{display:block;font-size:13px;color:var(--cn)}
 ol.selling-points li .en{display:block;font-size:14px}
-.ae-block{padding:16px;background:var(--blue-light);border-radius:8px;margin-bottom:12px;border-left:4px solid var(--accent2)}
-.ae-block .label{font-weight:700;font-size:13px;text-transform:uppercase;color:var(--accent2);margin-bottom:8px}
+.ae-block{padding:16px;background:var(--blue-light);border-radius:8px;margin-bottom:12px;border-left:4px solid var(--accent2);position:relative}
+.ae-block .label{font-weight:700;font-size:13px;text-transform:uppercase;color:var(--accent2);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
 .ae-block .label .cn{color:var(--cn);text-transform:none;margin-left:6px}
-.ae-block ul{padding-left:18px}
+.ae-block .label-text{display:flex;align-items:center}
+.ae-block ul{padding-left:18px;list-style:none}
 .ae-block li{margin-bottom:4px}
 .ae-block li .cn{display:block;font-size:13px;color:var(--cn)}
 .ae-block li .en{display:block}
-.ae-block .title-display{font-size:16px;font-weight:600;word-break:break-word;padding:8px 12px;background:#fff;border-radius:6px;margin-bottom:6px}
+.ae-block .title-display{font-size:16px;font-weight:600;word-break:break-word;padding:8px 12px;background:#fff;border-radius:6px;margin-bottom:4px}
+.ae-block .title-cn{font-size:14px;color:var(--cn);padding:4px 12px;background:#fff;border-radius:6px;margin-bottom:6px}
 .ae-block .char-count{font-size:12px;color:var(--muted)}
-.geo-block{padding:16px;background:var(--geo-light);border-radius:8px;margin-bottom:12px;border-left:4px solid var(--geo)}
-.geo-block .label{font-weight:700;font-size:13px;text-transform:uppercase;color:var(--geo);margin-bottom:8px}
+.geo-block{padding:16px;background:var(--geo-light);border-radius:8px;margin-bottom:12px;border-left:4px solid var(--geo);position:relative}
+.geo-block .label{font-weight:700;font-size:13px;text-transform:uppercase;color:var(--geo);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
 .geo-block .label .cn{color:var(--cn);text-transform:none;margin-left:6px}
+.geo-block .label-text{display:flex;align-items:center}
 .geo-block .qa{margin-bottom:10px;padding:8px 12px;background:#fff;border-radius:6px}
 .geo-block .qa .q{font-weight:600;margin-bottom:4px}
-.geo-block .qa .q .cn{display:block;font-size:13px;color:var(--cn)}
-.geo-block .qa .q .en{display:block}
-.geo-block .qa .a .cn{display:block;font-size:13px;color:var(--cn)}
-.geo-block .qa .a .en{display:block}
+.geo-block .qa .a{margin-bottom:4px}
+.geo-block .qa-group-en{margin-bottom:16px}
+.geo-block .qa-group-cn{margin-bottom:8px;border-top:2px dashed var(--border);padding-top:12px}
+.geo-block .qa-group-en h4{font-size:13px;color:var(--accent2);margin-bottom:8px}
+.geo-block .qa-group-cn h4{font-size:13px;color:var(--cn);margin-bottom:8px}
 .kw-cloud{display:flex;flex-wrap:wrap;gap:6px}
 .kw-cloud .kw{background:var(--tag-bg);padding:4px 12px;border-radius:16px;font-size:13px}
 .assumptions{background:#fff8e1;border:1px solid #ffe082;border-radius:8px;padding:16px}
@@ -93,8 +97,30 @@ ol.selling-points li .en{display:block;font-size:14px}
 .assumptions li .cn{display:block;font-size:13px;color:var(--cn)}
 .assumptions li .en{display:block}
 .jsonld-block{background:#1e293b;color:#e2e8f0;padding:14px;border-radius:6px;font-family:"SF Mono",Consolas,monospace;font-size:12px;overflow-x:auto;margin-top:8px;white-space:pre-wrap;word-break:break-all}
+.copy-btn{background:var(--accent2);color:#fff;border:none;padding:5px 14px;border-radius:6px;font-size:12px;cursor:pointer;transition:background .2s;white-space:nowrap}
+.copy-btn:hover{background:#1d4ed8}
+.copy-btn.geo{background:var(--geo)}
+.copy-btn.geo:hover{background:#6d28d9}
+.copy-btn.copied{background:#16a34a}
+.desc-section{padding:10px 12px;background:#fff;border-radius:6px;margin-bottom:8px}
+.desc-section .desc-en{font-size:14px;white-space:pre-wrap;margin-bottom:6px}
+.desc-section .desc-cn{font-size:13px;color:var(--cn);white-space:pre-wrap}
+.desc-divider{border:none;border-top:1px dashed var(--border);margin:8px 0}
+.consumer-card{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}
+.consumer-card .ccard{padding:10px 14px;background:var(--bg);border-radius:6px}
+.consumer-card .ccard strong{font-size:12px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px}
+.consumer-card .ccard .cn{display:block;font-size:13px;color:var(--cn)}
+.consumer-card .ccard .en{display:block;font-size:14px}
+.specs-twocol{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.specs-twocol .col-header{background:var(--bg);font-weight:600;font-size:12px;text-transform:uppercase;padding:8px 12px;border-bottom:1px solid var(--border)}
+.specs-twocol .col-header.cn{color:var(--cn)}
+.specs-twocol .spec-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border)}
+.specs-twocol .spec-row:last-child{border-bottom:none}
+.specs-twocol .spec-cell{padding:6px 12px;font-size:13px}
+.specs-twocol .spec-cell.en{border-right:1px solid var(--border)}
+.specs-twocol .spec-cell.cn{color:var(--cn);font-size:12px}
 .footer{text-align:center;padding:20px;color:var(--muted);font-size:13px}
-@media(max-width:640px){.container{padding:16px 12px 40px}.section{padding:20px 18px}.overview{flex-direction:column}.overview .img{flex:1 1 100%}table{font-size:12px}th,td{padding:6px 8px}}
+@media(max-width:640px){.container{padding:16px 12px 40px}.section{padding:20px 18px}.overview{flex-direction:column}.overview .img{flex:1 1 100%}table{font-size:12px}th,td{padding:6px 8px}.specs-twocol{grid-template-columns:1fr}.specs-twocol .spec-row{grid-template-columns:1fr}.specs-twocol .spec-cell.en{border-right:none;border-bottom:1px solid var(--border)}}
 </style>
 </head>
 <body>
@@ -105,6 +131,7 @@ ol.selling-points li .en{display:block;font-size:14px}
 <div class="sub">AliExpress 上架文案报告 | Cross-Border Listing Content Report</div>
 <div class="tags">
 <span class="tag">Offer ID: {{OFFER_ID}}</span>
+<span class="tag">{{MARKET_LANG_TAG}}</span>
 <span class="tag">Price: {{PRICE}}</span>
 <span class="tag">MOQ: {{MOQ}}</span>
 <span class="tag">Date: {{DATE}}</span>
@@ -119,7 +146,7 @@ ol.selling-points li .en{display:block;font-size:14px}
 <div class="info">
 <dl>
 <dt>中文标题</dt><dd><span class="cn">{{TITLE_CN}}</span></dd>
-<dt>EN Title</dt><dd><span class="en">{{TITLE_EN}}</span></dd>
+<dt>Foreign Title</dt><dd><span class="en">{{TITLE_EN}}</span></dd>
 <dt>价格 Price</dt><dd>{{PRICE}}</dd>
 <dt>起订量 MOQ</dt><dd>{{MOQ}}</dd>
 <dt>供应商 Supplier</dt><dd>{{SUPPLIER}}</dd>
@@ -128,6 +155,9 @@ ol.selling-points li .en{display:block;font-size:14px}
 </div>
 </div>
 </div>
+
+<!-- CONSUMER INSIGHT -->
+{{CONSUMER_INSIGHT_HTML}}
 
 <!-- KEYWORD SCORING -->
 <div class="section">
@@ -142,7 +172,7 @@ ol.selling-points li .en{display:block;font-size:14px}
 <div class="section">
 <h2><span class="cn">原始属性清单</span> | Raw Attribute Inventory</h2>
 <table>
-<thead><tr><th>#</th><th><span class="cn">属性(中)</span> Attr(CN)</th><th>Attr(EN)</th><th><span class="cn">值(中)</span> Val(CN)</th><th>Val(EN)</th><th>Source</th></tr></thead>
+<thead><tr><th>#</th><th><span class="cn">属性(中)</span> Attr(CN)</th><th>Attr(Foreign)</th><th><span class="cn">值(中)</span> Val(CN)</th><th>Val(Foreign)</th><th>Source</th></tr></thead>
 <tbody>{{ATTR_ROWS}}</tbody>
 </table>
 </div>
@@ -182,33 +212,38 @@ ol.selling-points li .en{display:block;font-size:14px}
 <h2><span class="cn">速卖通上架文案（普通版）</span> | AliExpress Standard Listing</h2>
 
 <div class="ae-block">
-<div class="label">Title <span class="cn">标题</span></div>
-<div class="title-display">{{AE_TITLE}}</div>
+<div class="label"><span class="label-text">Title <span class="cn">标题</span></span><button class="copy-btn" onclick="copyBlock(this)">Copy Foreign</button></div>
+<div class="title-display en">{{AE_TITLE}}</div>
+<div class="title-cn cn">{{AE_TITLE_CN}}</div>
 <div class="char-count">Characters: {{AE_TITLE_LEN}} / 128</div>
 </div>
 
 <div class="ae-block">
-<div class="label">Item Specifics <span class="cn">规格标签</span></div>
-<ul>{{AE_SPECS}}</ul>
+<div class="label"><span class="label-text">Item Specifics <span class="cn">规格标签</span></span><button class="copy-btn" onclick="copyBlock(this)">Copy Foreign</button></div>
+<div class="specs-twocol">
+<div class="col-header en">English / Foreign</div>
+<div class="col-header cn">中文对照</div>
+{{AE_SPECS_TWOCOL}}
+</div>
 </div>
 
 <div class="ae-block">
-<div class="label">SKU Matrix <span class="cn">SKU矩阵</span></div>
+<div class="label"><span class="label-text">SKU Matrix <span class="cn">SKU矩阵</span></span></div>
 <table><thead><tr><th>Color</th><th>Spec</th><th>Price</th><th>Stock</th></tr></thead><tbody>{{AE_SKU}}</tbody></table>
 </div>
 
 <div class="ae-block">
-<div class="label">Description <span class="cn">描述</span></div>
-<div class="bi-block"><p class="cn">{{AE_DESCRIPTION_CN}}</p><p class="en">{{AE_DESCRIPTION_EN}}</p></div>
+<div class="label"><span class="label-text">Description <span class="cn">描述</span></span><button class="copy-btn" onclick="copyBlock(this)">Copy Foreign</button></div>
+{{AE_DESCRIPTION_HTML}}
 </div>
 
 <div class="ae-block">
-<div class="label">Search Keywords <span class="cn">搜索关键词</span></div>
+<div class="label"><span class="label-text">Search Keywords <span class="cn">搜索关键词</span></span><button class="copy-btn" onclick="copyBlock(this)">Copy Foreign</button></div>
 <p class="en" style="font-family:monospace;font-size:13px">{{AE_KEYWORDS}}</p>
 </div>
 
 <div class="ae-block">
-<div class="label">Image Notes <span class="cn">图片建议</span></div>
+<div class="label"><span class="label-text">Image Notes <span class="cn">图片建议</span></span><button class="copy-btn" onclick="copyBlock(this)">Copy Foreign</button></div>
 <p class="en">{{AE_IMAGE_NOTES}}</p>
 </div>
 </div>
@@ -218,37 +253,44 @@ ol.selling-points li .en{display:block;font-size:14px}
 <h2><span class="cn">速卖通上架文案（GEO版）</span> | AliExpress GEO-Enhanced Listing</h2>
 
 <div class="geo-block">
-<div class="label">GEO Title <span class="cn">GEO标题</span></div>
+<div class="label"><span class="label-text">GEO Title <span class="cn">GEO标题</span></span><button class="copy-btn geo" onclick="copyBlock(this)">Copy Foreign</button></div>
 <p class="en">{{GEO_TITLE}}</p>
 </div>
 
 <div class="geo-block">
-<div class="label">FAQ Block <span class="cn">FAQ问答</span></div>
-{{GEO_FAQ}}
+<div class="label"><span class="label-text">FAQ Block <span class="cn">FAQ问答</span></span><button class="copy-btn geo" onclick="copyBlock(this)">Copy Foreign</button></div>
+<div class="qa-group-en">
+<h4>English / Foreign Q&A</h4>
+{{GEO_FAQ_EN}}
+</div>
+<div class="qa-group-cn">
+<h4>中文 Q&A</h4>
+{{GEO_FAQ_CN}}
+</div>
 </div>
 
 <div class="geo-block">
-<div class="label">Situational Language <span class="cn">场景化语义</span></div>
-<div class="bi-block"><p class="cn">{{GEO_SITUATIONAL_CN}}</p><p class="en">{{GEO_SITUATIONAL_EN}}</p></div>
+<div class="label"><span class="label-text">Situational Language <span class="cn">场景化语义</span></span><button class="copy-btn geo" onclick="copyBlock(this)">Copy Foreign</button></div>
+<div class="desc-section"><p class="desc-en">{{GEO_SITUATIONAL_EN}}</p><p class="desc-cn">{{GEO_SITUATIONAL_CN}}</p></div>
 </div>
 
 <div class="geo-block">
-<div class="label">Competitive Comparison <span class="cn">竞品对比</span></div>
-<div class="bi-block"><p class="cn">{{GEO_COMPARISON_CN}}</p><p class="en">{{GEO_COMPARISON_EN}}</p></div>
+<div class="label"><span class="label-text">Competitive Comparison <span class="cn">竞品对比</span></span><button class="copy-btn geo" onclick="copyBlock(this)">Copy Foreign</button></div>
+<div class="desc-section"><p class="desc-en">{{GEO_COMPARISON_EN}}</p><p class="desc-cn">{{GEO_COMPARISON_CN}}</p></div>
 </div>
 
 <div class="geo-block">
-<div class="label">Natural Language Keywords <span class="cn">自然语言关键词</span></div>
+<div class="label"><span class="label-text">Natural Language Keywords <span class="cn">自然语言关键词</span></span><button class="copy-btn geo" onclick="copyBlock(this)">Copy Foreign</button></div>
 <div class="kw-cloud">{{GEO_NL}}</div>
 </div>
 
 <div class="geo-block">
-<div class="label">JSON-LD Structured Data <span class="cn">结构化数据</span></div>
+<div class="label"><span class="label-text">JSON-LD Structured Data <span class="cn">结构化数据</span></span><button class="copy-btn geo" onclick="copyBlock(this)">Copy Foreign</button></div>
 <div class="jsonld-block">{{GEO_JSONLD}}</div>
 </div>
 
 <div class="geo-block">
-<div class="label">Multi-language Keywords <span class="cn">多语言关键词</span></div>
+<div class="label"><span class="label-text">Multi-language Keywords <span class="cn">多语言关键词</span></span><button class="copy-btn geo" onclick="copyBlock(this)">Copy Foreign</button></div>
 <p class="en" style="font-size:13px">{{GEO_MULTILANG}}</p>
 </div>
 </div>
@@ -265,5 +307,36 @@ AliExpress Listing Content Report | 跨境电商上架文案报告
 </div>
 
 </div>
+<script>
+function copyBlock(btn){
+  var block = btn.closest('.ae-block, .geo-block');
+  if(!block) return;
+  var enElements = block.querySelectorAll('.en, .desc-en, .title-display, .kw-cloud .kw, .jsonld-block, .specs-twocol .spec-cell.en');
+  var text = '';
+  enElements.forEach(function(el){
+    var t = el.textContent.trim();
+    if(t) text += t + '\n';
+  });
+  if(!text){
+    var p = block.querySelector('p');
+    if(p) text = p.textContent.trim();
+  }
+  navigator.clipboard.writeText(text).then(function(){
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(function(){ btn.textContent = 'Copy Foreign'; btn.classList.remove('copied'); }, 2000);
+  }).catch(function(){
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(function(){ btn.textContent = 'Copy Foreign'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
 </body>
 </html>
