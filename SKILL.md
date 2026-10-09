@@ -70,7 +70,7 @@ Task Progress:
 | 竞品环境 | 该市场同类产品定价/卖点/差异化 | 俄罗斯Ozon/Wildberries上的竞品分析 |
 | 爆品潜力 | 该产品在该市场的爆品特质评估 | 是否有文化契合点/节日需求/社交媒体传播性 |
 
-输出 Consumer Insight Card，指导后续卖点挖掘和文案生成，确保内容具有爆品高潜力特质。
+每个分析维度输出外文+中文对照。输出 Consumer Insight Card，指导后续卖点挖掘和文案生成，确保内容具有爆品高潜力特质。
 
 ### 3. 关键词挖掘与评分
 
@@ -88,7 +88,7 @@ Task Progress:
 - Tertiary (2-3分) -> 描述
 - Backend (1分) -> 搜索关键词
 
-关键词用输出语言生成（默认英语）。详细方法见 [references/keyword-scoring.md](references/keyword-scoring.md)。
+关键词用输出语言生成（默认英语），同时提供中文翻译对照。详细方法见 [references/keyword-scoring.md](references/keyword-scoring.md)。
 
 ### 4. 卖点挖掘 (5层模型)
 
@@ -189,7 +189,8 @@ python3 "$SKILL_DIR/scripts/render_report.py" report.json -o "<slug>-listing-<yy
 - 描述先外语后中文，已合理分段
 - GEO版FAQ外语集中展示、中文集中展示
 - 每个子模块有一键复制外文内容按钮
-- 目标市场消费者分析已生成（如用户指定）
+- 目标市场消费者分析已生成，含中文对照
+- 关键词评分表含中文关键词对照
 - 外语文案像目标市场本地文案不是中式直译
 - 无编造价格/认证/销量
 - HTML已生成且能打开

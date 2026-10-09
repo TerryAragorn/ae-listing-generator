@@ -14,13 +14,11 @@ def esc(v):
     return html.escape(str(v), quote=True)
 
 def desc_to_paragraphs(text):
-    """Split a description string into paragraphs by newlines."""
     if not text:
         return []
     return [p.strip() for p in text.split("\n") if p.strip()]
 
 def render_description_html(desc_foreign, desc_cn):
-    """Build desc-section divs: foreign paragraphs first, divider, then CN paragraphs."""
     fp = desc_to_paragraphs(desc_foreign)
     cp = desc_to_paragraphs(desc_cn)
     parts = []
@@ -61,12 +59,12 @@ def render(data, template):
         src_label = src
         attr_rows += f'<tr><td>{i}</td><td class="cn">{esc(a.get("name_cn",""))}</td><td class="en">{esc(a.get("name_en",""))}</td><td class="cn">{esc(a.get("value_cn",""))}</td><td class="en">{esc(a.get("value_en",""))}</td><td><span class="src {src_class}">{esc(src_label)}</span></td></tr>\n'
 
-    # Keyword rows
+    # Keyword rows (now with CN column)
     kw_rows = ""
     for i, k in enumerate(keywords, 1):
         tier = k.get("tier", "")
         tier_class = tier.replace(" ", "")
-        kw_rows += f'<tr><td>{i}</td><td class="en">{esc(k.get("keyword",""))}</td><td>{esc(k.get("score",""))}</td><td><span class="tier {tier_class}">{esc(tier)}</span></td><td class="en">{esc(k.get("placement",""))}</td></tr>\n'
+        kw_rows += f'<tr><td>{i}</td><td class="en">{esc(k.get("keyword",""))}</td><td class="cn">{esc(k.get("keyword_cn",""))}</td><td>{esc(k.get("score",""))}</td><td><span class="tier {tier_class}">{esc(tier)}</span></td><td class="en">{esc(k.get("placement",""))}</td></tr>\n'
 
     # FABE items
     fabe_html = ""
@@ -88,7 +86,6 @@ def render(data, template):
     ae_title_len = len(ae_title)
     ae_title_cn = ae_standard.get("title_cn", ae_standard.get("title_chinese", ""))
 
-    # Item Specifics: two-column grid (foreign left, CN right)
     ae_specs_twocol = ""
     for s in ae_standard.get("item_specifics", []):
         en_val = esc(s.get("en", s.get("value_en", "")))
@@ -97,7 +94,6 @@ def render(data, template):
     if not ae_specs_twocol:
         ae_specs_twocol = '<div class="spec-row"><div class="spec-cell en">N/A</div><div class="spec-cell cn">N/A</div></div>'
 
-    # Description: foreign paragraphs first, then CN paragraphs
     ae_description_html = render_description_html(
         ae_standard.get("description", ae_standard.get("description_en", "")),
         ae_standard.get("description_cn", "")
@@ -128,10 +124,9 @@ def render(data, template):
     for n in ae_geo.get("natural_language", []):
         geo_nl_html += f'<span class="kw"><span class="en">{esc(n)}</span></span>\n'
 
-    # Market / Language tag
     market_lang_tag = f"Market: {market} | Lang: {language}"
 
-    # Consumer Insight HTML
+    # Consumer Insight HTML — now with CN translation for each field
     consumer_html = ""
     if consumer:
         consumer_html = '<div class="section">'
@@ -145,18 +140,22 @@ def render(data, template):
             ("competitive_landscape", "Competitive Landscape"),
             ("viral_potential", "Viral Potential"),
         ]:
-            val = consumer.get(key, "")
-            if not val:
+            val_en = consumer.get(key, "")
+            val_cn = consumer.get(key + "_cn", consumer.get(key.replace("_", "_") + "_cn", ""))
+            if not val_en and not val_cn:
                 continue
-            consumer_html += f'<div class="ccard"><strong>{label_en}</strong><span class="en">{esc(val)}</span></div>'
+            consumer_html += f'<div class="ccard"><strong>{label_en}</strong>'
+            if val_en:
+                consumer_html += f'<span class="en">{esc(val_en)}</span>'
+            if val_cn:
+                consumer_html += f'<span class="cn">{esc(val_cn)}</span>'
+            consumer_html += '</div>'
         consumer_html += '</div></div>'
 
-    # Assumptions
     asump_html = ""
     for a in assumptions:
         asump_html += f'<li><span class="cn">{esc(a.get("cn",""))}</span><span class="en">{esc(a.get("en",""))}</span></li>\n'
 
-    # Hero image
     hero = product.get("hero_image", "")
     hero_html = f'<img src="{esc(hero)}" alt="Product" />' if hero else '<div class="empty">No image</div>'
 
